@@ -40,10 +40,6 @@
   "peerDependencies": {
     "@aws-sdk/client-s3": "^3.427.0"
   },
-  "optionalDependencies": {
-    "pino": "^8.15.6",
-    "winston": "^3.10.0"
-  },
   "prettier": {
     "arrowParens": "always",
     "tabWidth": 4,
