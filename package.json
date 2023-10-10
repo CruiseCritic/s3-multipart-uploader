@@ -3,7 +3,7 @@
   "version": "0.0.0-development",
   "description": "Wrapper around AWS SDK S3Client for multipart uploads",
   "main": "dist/index.js",
-  "types": "index.ts",
+  "types": "dist/index.d.ts",
   "contributors": [
     {
       "name": "Cruise Critic"
