@@ -4,6 +4,14 @@
   "description": "Wrapper around AWS SDK S3Client for multipart uploads",
   "main": "dist/index.js",
   "types": "index.ts",
+  "contributors": [
+    {
+      "name": "Cruise Critic"
+    }
+  ],
+  "keywords": [
+    "s3 multipart upload"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint index.ts",
@@ -51,5 +59,8 @@
     "branches": [
       "main"
     ]
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
