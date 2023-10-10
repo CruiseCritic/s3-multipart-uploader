@@ -11,6 +11,7 @@ module.exports = {
     "rules": {
         "@typescript-eslint/strict-boolean-expressions": "off",
         "@typescript-eslint/indent": ["error", 4],
-        "@typescript-eslint/comma-dangle": ["error", "always-multiline"]
+        "@typescript-eslint/comma-dangle": ["error", "always-multiline"],
+        "@typescript-eslint/space-before-function-paren": "off"
     }
 }

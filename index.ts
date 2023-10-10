@@ -7,10 +7,8 @@ import {
     type UploadPartCommandOutput,
 } from '@aws-sdk/client-s3'
 import { Buffer } from 'node:buffer'
-import type * as winston from 'winston'
-import type * as pino from 'pino'
 
-function formatBytes (bytes: number, decimals = 2): string {
+function formatBytes(bytes: number, decimals = 2): string {
     if (!bytes) {
         return '0 Bytes'
     }
@@ -34,9 +32,13 @@ function formatBytes (bytes: number, decimals = 2): string {
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
 }
 
-interface S3BatchUploaderOptions<T> {
+export interface LoggerInterface {
+    debug: (message: string, context: Record<string, unknown>) => void
+}
+
+export interface S3BatchUploaderOptions<T> {
     checkInterval?: number
-    logger?: winston.Logger | pino.Logger
+    logger?: LoggerInterface
     transformer?: (rows: T[]) => string
 }
 
@@ -55,10 +57,10 @@ export class S3MultipartUploader<T = string> {
     public parts: Array<Promise<UploadPartCommandOutput>> = []
     public checkIntervalCounter = 0
     public checkInterval: number
-    public readonly logger: winston.Logger | pino.Logger | undefined
+    public readonly logger: LoggerInterface | undefined
     public readonly dataTransformer: (rows: T[]) => string
 
-    constructor (
+    constructor(
         private readonly s3: S3Client,
         public readonly bucket: string,
         public readonly key: string,
@@ -73,7 +75,7 @@ export class S3MultipartUploader<T = string> {
         this.dataTransformer = transformer
     }
 
-    public async start (): Promise<string | undefined> {
+    public async start(): Promise<string | undefined> {
         this.log('Starting upload')
         const multipartUpload = await this.s3.send(
             new CreateMultipartUploadCommand({
@@ -85,7 +87,7 @@ export class S3MultipartUploader<T = string> {
         return multipartUpload.UploadId
     }
 
-    public add (data: T): void {
+    public add(data: T): void {
         if (!this.uploadId) {
             throw new Error('Uploader not started, cannot add data')
         }
@@ -98,7 +100,7 @@ export class S3MultipartUploader<T = string> {
         }
     }
 
-    protected push (force = false): void {
+    protected push(force = false): void {
         if (!this.uploadId) {
             throw new Error('Uploader not started, cannot push')
         }
@@ -131,7 +133,7 @@ export class S3MultipartUploader<T = string> {
         this.data = []
     }
 
-    public async finish (): Promise<void> {
+    public async finish(): Promise<void> {
         if (!this.uploadId) {
             throw new Error('Uploader not started, cannot finish')
         }
@@ -158,7 +160,7 @@ export class S3MultipartUploader<T = string> {
         this.uploadId = undefined
     }
 
-    public async abort (): Promise<void> {
+    public async abort(): Promise<void> {
         if (this.uploadId) {
             this.log('Aborting upload')
             await this.s3.send(
@@ -172,7 +174,7 @@ export class S3MultipartUploader<T = string> {
         }
     }
 
-    private log (message: string, context?: Record<string, unknown>): void {
+    private log(message: string, context?: Record<string, unknown>): void {
         this.logger?.debug(message, {
             bucket: this.bucket,
             key: this.key,
