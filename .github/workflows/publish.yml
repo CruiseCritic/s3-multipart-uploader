@@ -1,8 +1,8 @@
 name: NPM Package Publish
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: [main]
 
 jobs:
   publish_package:
@@ -15,11 +15,14 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "18.x"
-          registry-url: https://npm.pkg.github.com/
-          scope: "@cruisecritic"
-      - run: npm install
+
+      - name: Dependencies
+        run: npm install
         env:
           NODE_AUTH_TOKEN: ${{secrets.GH_PACKAGE_TOKEN}}
-      - run: npm run publish:package
+
+      - name: Release
         env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm run semantic-release
