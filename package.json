@@ -45,9 +45,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CruiseCritic/s3-multipart-uploader.git"
+    "url": "git+https://github.com/CruiseCritic/s3-multipart-uploader.git"
   },
   "release": {
-    "branches": ["main"]
+    "branches": [
+      "main"
+    ]
   }
 }
