@@ -10,7 +10,8 @@
     "lint:fix": "npm run lint -- --fix",
     "lint:tsc": "tsc --noEmit",
     "lint:prettier":"prettier -c index.ts",
-    "lint:prettier:fix":"prettier -w index.ts"
+    "lint:prettier:fix":"prettier -w index.ts",
+    "publish:package": "npm publish"
   },
   "author": "Will Weaver (Cruise Critic)",
   "license": "MIT",

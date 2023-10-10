@@ -1,0 +1,26 @@
+name: NPM Package Publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish_package:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+          registry-url: https://npm.pkg.github.com/
+          scope: "@cruisecritic"
+      - run: npm install
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GH_PACKAGE_TOKEN}}
+      - run: npm publish:package
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
