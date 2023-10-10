@@ -13,13 +13,13 @@
     "s3 multipart upload"
   ],
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint index.ts",
     "lint:fix": "npm run lint -- --fix",
     "lint:tsc": "tsc --noEmit",
     "lint:prettier": "prettier -c index.ts",
     "lint:prettier:fix": "prettier -w index.ts",
-    "publish:package": "npm publish",
     "semantic-release": "semantic-release"
   },
   "author": "Will Weaver (Cruise Critic)",
